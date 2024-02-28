@@ -7,7 +7,7 @@
 
 import logging
 import ask_sdk_core.utils as ask_utils
-#import pandas as pd
+import pandas as pd
 import requests
 import io
 import calendar
@@ -73,8 +73,8 @@ class CaptureZodiacSignIntentHandler(AbstractRequestHandler):
             if self.filter(row['Start']) <= usr_dob <= self.filter(row['End']):
                 zodiac = row['Zodiac']
         
-        #speak_output = 'I see you were born on the {day} of {month} {year}, which means that your zodiac sign will be {zodiac}.'.format(month=month, day=day,year=year, zodiac=zodiac)
-        speak_out = 'Test output'
+        speak_output = 'I see you were born on the {day} of {month} {year}, which means that your zodiac sign will be {zodiac}.'.format(month=month, day=day,year=year, zodiac=zodiac)
+        #speak_out = 'Test output'
 
         return (
             handler_input.response_builder
