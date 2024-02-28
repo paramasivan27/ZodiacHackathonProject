@@ -7,7 +7,7 @@
 
 import logging
 import ask_sdk_core.utils as ask_utils
-#import pandas as pd
+import pandas as pd
 import requests
 import io
 import calendar
@@ -65,7 +65,7 @@ class CaptureZodiacSignIntentHandler(AbstractRequestHandler):
         day = slots["day"].value
         url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqxHhXM8y3Tuc9bhhxIgGLvK1xXjwYOaDK51KhQgMvDoPAxq0IC72c4kkgOzls_g/pub?gid=23841637&single=true&output=csv"
         csv_content = requests.get(url).content
-        #df = pd.read_csv(io.StringIO(csv_content.decode('utf-8')))
+        df = pd.read_csv(io.StringIO(csv_content.decode('utf-8')))
         zodiac = ''
         month_as_index = list(calendar.month_abbr).index(month[:3].title())
         usr_dob = (month_as_index,init(day))
@@ -73,7 +73,7 @@ class CaptureZodiacSignIntentHandler(AbstractRequestHandler):
             if self.filter(row['Start']) <= usr_dob <= self.filter(row['End']):
                 zodiac = row['Zodiac']
         
-        #speak_output = 'I see you were born on the {day} of {month} {year}, which means that your zodiac sign will be {zodiac}.'.format(month=month, day=day,year=year, zodiac=zodiac)
+        speak_output = 'I see you were born on the {day} of {month} {year}, which means that your zodiac sign will be {zodiac}.'.format(month=month, day=day,year=year, zodiac=zodiac)
         speak_out = 'Test output'
 
         return (
