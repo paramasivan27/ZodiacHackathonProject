@@ -83,15 +83,19 @@
           ],
           "name": "CaptureZodiacSignIntent",
           "samples": [
-            "I was bron in the month of {month} what is my zodiac sign",
-            "If my zodiac sign is Pices what is my birth month",
+            "Tell me my Zodiac if my date of birth is {day} {month}",
+            "What is my zodiac sign if my date of birth is {day} {month} {year}",
             "My date of birth is {day} {month} what is my zodiac sign",
             "I was born on {month} {day} {year}"
           ]
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
         }
       ],
       "types": [],
-      "invocationName": "get hackathon project"
+      "invocationName": "hackathon project"
     },
     "prompts": [
       {
