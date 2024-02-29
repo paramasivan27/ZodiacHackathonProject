@@ -68,7 +68,7 @@ class CaptureZodiacSignIntentHandler(AbstractRequestHandler):
         df = pd.read_csv(io.StringIO(csv_content.decode('utf-8')))
         zodiac = ''
         month_as_index = list(calendar.month_abbr).index(month[:3].title())
-        usr_dob = (month_as_index,init(day))
+        usr_dob = (month_as_index,int(day))
         for index,row in df.iterrows():
             if self.filter(row['Start']) <= usr_dob <= self.filter(row['End']):
                 zodiac = row['Zodiac']
