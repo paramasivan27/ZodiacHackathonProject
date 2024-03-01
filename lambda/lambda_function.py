@@ -11,6 +11,7 @@ import pandas as pd
 import requests
 import io
 import calendar
+from datetime import datetime
 
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.dispatch_components import AbstractRequestHandler
@@ -42,6 +43,46 @@ class LaunchRequestHandler(AbstractRequestHandler):
                 .response
         )
 
+class RecommendAStoreIntentHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("RecommendAStoreIntent")(handler_input)
+    
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        speak_output = "I am sorry ! I could not find a store for that requirement!"
+        #logger.info('In Function')
+        slots = handler_input.request_envelope.request.intent.slots
+        storeType = slots["storeType"].value
+        location = slots["location"].value
+        statusType = slots["statusType"].value
+        #logger.info('In Function')
+        store_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRDmCxVvsEzvKjvhJHB82DeIipuJfnJOexw5f60FNaYKM8jVbsU90JqyrRV6nz6nQ/pub?gid=424068117&single=true&output=csv"
+        store_csv_content = requests.get(store_url).content
+        df_store = pd.read_csv(io.StringIO(store_csv_content.decode('utf-8')))
+        store = ''
+        time_obj = datetime.strptime(statusType, '%H:%M').time()
+        #logger.info('Store type %s', str(storeType))
+        store_df = df_store[(df_store['City'] == location) & (df_store['Store Type'] == storeType)][['Store Name','Open Time', 'Close Time']]
+        logger.info('Number of Records %s', str(len(store_df)))
+        for i in store_df.index:
+            #logger.info('in for loop')
+            store = store_df['Store Name'][i]
+            open_time = datetime.strptime(store_df['Open Time'][i], '%H:%M').time()
+            close_time = datetime.strptime(store_df['Close Time'][i], '%H:%M').time()
+            #logger.info('Times open %s close %s input time %s', str(open_time), str(close_time), str(time_obj))
+            if time_obj > open_time and time_obj < close_time:
+                logger.info('in if condition')
+                speak_output = 'In {location} , you can visit {store}. It is open from {open_time} HRS to {close_time} HRS.'.format(location=location, store=store, open_time=open_time, close_time=close_time)
+        
+        #speak_output = 'In {location} , you can visit {store}. It is open from '.format(location=location, store=str(store[0]))
+
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                # .ask("add a reprompt if you want to keep the session open for the user to respond")
+                .response
+        )
 
 class CaptureZodiacSignIntentHandler(AbstractRequestHandler):
     """Handler for Hello World Intent."""
@@ -64,8 +105,11 @@ class CaptureZodiacSignIntentHandler(AbstractRequestHandler):
         month = slots["month"].value
         day = slots["day"].value
         url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqxHhXM8y3Tuc9bhhxIgGLvK1xXjwYOaDK51KhQgMvDoPAxq0IC72c4kkgOzls_g/pub?gid=23841637&single=true&output=csv"
+        store_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRDmCxVvsEzvKjvhJHB82DeIipuJfnJOexw5f60FNaYKM8jVbsU90JqyrRV6nz6nQ/pub?gid=424068117&single=true&output=csv"
         csv_content = requests.get(url).content
+        store_csv_content = requests.get(store_url).content
         df = pd.read_csv(io.StringIO(csv_content.decode('utf-8')))
+        df_store = pd.read_csv(io.StringIO(store_csv_content.decode('utf-8')))
         zodiac = ''
         month_as_index = list(calendar.month_abbr).index(month[:3].title())
         usr_dob = (month_as_index,int(day))
@@ -201,6 +245,7 @@ sb = SkillBuilder()
 
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(CaptureZodiacSignIntentHandler())
+sb.add_request_handler(RecommendAStoreIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(FallbackIntentHandler())
