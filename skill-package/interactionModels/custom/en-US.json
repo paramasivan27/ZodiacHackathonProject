@@ -35,6 +35,40 @@
           "name": "CaptureZodiacSignIntent",
           "confirmationRequired": false,
           "prompts": {}
+        },
+        {
+          "slots": [
+            {
+              "name": "storeType",
+              "elicitationRequired": true,
+              "type": "AMAZON.LocalBusinessType",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1654369161792.858328350244"
+              }
+            },
+            {
+              "name": "location",
+              "elicitationRequired": true,
+              "type": "AMAZON.City",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1654369161792.699413692085"
+              }
+            },
+            {
+              "name": "statusType",
+              "elicitationRequired": true,
+              "type": "AMAZON.TIME",
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1654369161792.1501345560751"
+              }
+            }
+          ],
+          "name": "RecommendAStoreIntent",
+          "confirmationRequired": false,
+          "prompts": {}
         }
       ],
       "delegationStrategy": "ALWAYS"
@@ -138,6 +172,75 @@
         {
           "name": "AMAZON.FallbackIntent",
           "samples": []
+        },
+        {
+          "slots": [
+            {
+              "name": "storeType",
+              "type": "AMAZON.LocalBusinessType"
+            },
+            {
+              "name": "location",
+              "type": "AMAZON.City"
+            },
+            {
+              "name": "statusType",
+              "type": "AMAZON.TIME"
+            }
+          ],
+          "name": "RecommendAStoreIntent",
+          "samples": [
+            "{storeType} in {location}",
+            "Any good {storeType} you can recommend in {location} open at {statusType}",
+            "I\u0027m looking for a {storeType} in {location}  open at {statusType} any recommendations",
+            "Find a {storeType} in {location} that is open at {statusType}",
+            "Looking for a {storeType}",
+            "Looking for a store recommendation",
+            "Recommend a store",
+            "I need to find a {storeType} in {location}",
+            "Can you recommend a {storeType} in {location} that will be open at {statusType}",
+            "Please suggest me a {storeType} store in {location}",
+            "I need a recommendation for a {storeType} in {location}",
+            "What {storeType} is currently open in {location}",
+            "Tell me about a {storeType} open at {statusType}",
+            "Recommend a {storeType} that I can visit in {location}",
+            "Which {storeType} is open in {location} at {statusType}",
+            "Do you know any open {storeType} in {location} that will be open at {statusType}",
+            "I\u0027m looking for an open {storeType} in {location}  any suggestions",
+            "Can you recommend a {storeType} in {location} open at {statusType}",
+            "Can you recommend a good {storeType} in {location} open at {statusType}",
+            "What {storeType} are there in the {location} that are open at {statusType}",
+            "Do you know of any local {storeType} in {location}",
+            "Where can I find a {storeType} in {location} that will be open at {statusType}",
+            "Any recommendations for a good {storeType} in {location} that is open at {statusType}",
+            "Can you suggest a good {storeType} in {location} that is open at {statusType}",
+            "Do you know of any {storeType} in {location}",
+            "What {storeType} are there in the {location}",
+            "Can you recommend a {storeType} that\u0027s open at {statusType} in {location}",
+            "I\u0027m looking for an open {storeType} in {location} any suggestions",
+            "Do you know any open {storeType} in {location}",
+            "Which {storeType} is open nearby",
+            "Recommend a {storeType} that I can visit at {statusType}",
+            "Is there a {storeType} that\u0027s open at {statusType}",
+            "Tell me about a {storeType} that\u0027s still open",
+            "What {storeType} is currently open",
+            "I need a recommendation for an open {storeType} in {location}",
+            "I need a recommendation for an open {storeType} nearby",
+            "Can you suggest a {storeType} that\u0027s open at {statusType} ",
+            "Where can I find a reputable {storeType}",
+            "I\u0027m looking for a {storeType} Any recommendations",
+            "Any good {storeType} you can recommend",
+            "Any good {storeType} you can recommend in {location}",
+            "Any suggestions for a {storeType} nearby",
+            "Do you know of any local {storeType}",
+            "Where can I find a {statusType} around here",
+            "Any recommendations for a good {storeType}",
+            "Can you suggest a good {storeType} ",
+            "Suggest a {storeType} in {location} open at {statusType}",
+            "In {location} which {storeType} is open at {statusType}",
+            "Nearest {storeType} open at {statusType}",
+            "Find a nearest medical store"
+          ]
         }
       ],
       "types": [],
@@ -170,6 +273,33 @@
           }
         ],
         "id": "Elicit.Slot.1460998018161.1384193922632"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "What type of Store you are looking for"
+          }
+        ],
+        "id": "Elicit.Slot.1654369161792.858328350244"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "What time would you visit ?"
+          }
+        ],
+        "id": "Elicit.Slot.1654369161792.1501345560751"
+      },
+      {
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "In Which City ?"
+          }
+        ],
+        "id": "Elicit.Slot.1654369161792.699413692085"
       }
     ]
   }
